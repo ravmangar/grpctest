@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package splice_cube;
+
+import "google/protobuf/timestamp.proto";
+
+service WiFiData{
+  rpc getPacketsTo(SingleMACAddr) returns (PacketData) {}
+  rpc getPacketsFrom(DoubleMACAddr) returns (PacketData) {}
+  rpc getDeviceLastSeen(SingleMACAddr) returns (Time) {}
+  rpc getMUDProfile(SingleMACAddr) returns (MUDProfile) {}
+}
+
+service CubeletData{
+  rpc getCubeletInfo(SingleMACAddr) returns (CubeletInfo) {}
+  rpc getCubeletLastSeen(SingleMACAddr) returns (Time) {}
+}
+
+message SingleMACAddr{
+  string mac_address = 1;
+}
+
+message Time{
+  google.protobuf.Timestamp time = 1;
+}
+
+message MUDProfile{
+  string mud_url = 1;
+}
+
+message DoubleMACAddr{
+  string src_mac = 1;
+  string dst_mac = 2;
+}
+
+message PacketData{
+  string src_mac = 1;
+  string dst_mac = 2;
+  int32  rssi    = 3;
+  google.protobuf.Timestamp time = 4;
+}
+
+message CubeletInfo{
+  int32 cubelet_num = 1;
+  string mac_addr   = 2;
+  string ip_addr    = 3;
+  string location   = 4;
+  google.protobuf.Timestamp time_added = 5;
+  google.protobuf.Timestamp last_seen  = 6;
+}
